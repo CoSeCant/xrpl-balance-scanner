@@ -4,17 +4,27 @@
   <meta charset="UTF-8">
   <title>XRP Balance Scanner</title>
   <script src="https://unpkg.com/xrpl@2.0.0/build/xrpl-latest-min.js"></script>
+  <script src="javascript.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="header">
-    <h1>CHECK YOUR XRP BALANCE!</h1>
+    <h1>XRPL Account Balance Checker</h1>
+    <img src="images/xrpl-logo.png"></img>
+  </div>
+  <div class="middle">
+    <h2>Check your balance here:</h2>
+    <input id="userInput">
+    <button onclick="main()">Submit</button>
+  </div>
+  <div class="bottom">
+    <p>Your balance is:</p>
+    <p id="xrpBalance"></p>
   </div>
   <script>
-    const userAccount = prompt('Enter your XRPL address to check your XRP balance:')
-
+   
     async function main() {
-
+      const userAccount = document.getElementById("userInput").value;
       const PUBLIC_SERVER = "wss://xrplcluster.com/"
       const client = new xrpl.Client(PUBLIC_SERVER)
       await client.connect()
@@ -26,11 +36,11 @@
       })
       const balance = parseInt(response.result.account_data.Balance) / 1000000
       console.log(`Your balance is ${balance} XRP`);
-      alert(`Your balance is ${balance} XRP`)
+      document.getElementById("xrpBalance").innerHTML = `${balance} XRP`;
+      //alert(`Your balance is ${balance} XRP`)
 
       client.disconnect()
     }
-    main()
   </script>
 </body>
 </html>
